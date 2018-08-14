@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="cordova-plugin-applovin"
+    version="1.0.0"
+>
+
+    <name>Cordova AppLovin plugin</name>
+    <description>AppLovin rewarded video ads</description>
+    <author>Łukasz Nawrot</author>
+    <license>MIT</license>
+    <keywords>cordova,plugin,ad,video,applovin,monetisation</keywords>
+    <repo>https://github.com/lnawrot/cordova-plugin-applovin</repo>
+    <issue>https://github.com/lnawrot/cordova-plugin-applovin/issues</issue>
+	<engines>
+	    <engine name="cordova" version=">=3.0.0" />
+	</engines>
+
+    <js-module src="www/applovin.js" name="applovin">
+        <clobbers target="window.AppLovin" />
+    </js-module>
+
+	<preference name="SDK_KEY" />
+
+	<!-- android -->
+	<platform name="android">
+		<framework src="src/android/plugin.gradle" custom="true" type="gradleReference" />
+		<config-file target="res/xml/config.xml" parent="/*">
+			<feature name="AppLovinPlugin">
+				<param name="android-package" value="me.nawrot.cordova.plugin.applovin.AppLovinPlugin"/>
+				<param name="onload" value="true" />
+			</feature>
+		</config-file>
+
+		 <config-file target="AndroidManifest.xml" parent="/*">
+			<uses-permission android:name="android.permission.INTERNET"/>
+
+			<!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18" /> -->
+			<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    	</config-file>
+
+		<config-file target="AndroidManifest.xml" parent="/manifest/application">
+			<activity android:name="com.applovin.adview.AppLovinInterstitialActivity" android:configChanges="orientation|screenSize"/>
+			<activity android:name="com.applovin.adview.AppLovinConfirmationActivity" android:configChanges="orientation|screenSize"/>
+
+      		<meta-data
+				android:name="applovin.sdk.key"
+   				android:value="$SDK_KEY"
+			/>
+    	</config-file>
+
+    	<source-file src="src/android/AppLovinPlugin.java" target-dir="src/me/nawrot/cordova/plugin/applovin" />
+		<source-file src="src/android/Actions.java" target-dir="src/me/nawrot/cordova/plugin/applovin" />
+	</platform>
+
+	<!-- ios -->
+	<platform name="ios">
+		<config-file target="config.xml" parent="/*">
+			<feature name="AppLovinPlugin">
+				<param name="ios-package" value="AppLovinPlugin" />
+				<param name="onload" value="true" />
+			</feature>
+		</config-file>
+
+		<config-file target="*-Info.plist" parent="AppLovinSdkKey">
+			<string>$SDK_KEY</string>
+		</config-file>
+
+    	<header-file src="src/ios/AppLovinPlugin.h" />
+    	<source-file src="src/ios/AppLovinPlugin.m" />
+
+        <framework src="AppLovinSDK.framework" custom="true" />
+    </platform>
+</plugin>

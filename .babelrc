@@ -1,0 +1,21 @@
+{
+  "presets": [
+    ["env", {"targets": {"node": "current"}}],
+    "stage-2"
+  ],
+  "env": {
+    "production": {
+      "plugins": []
+    },
+    "test": {
+      "plugins": [
+        ["module-resolver", {
+          "alias": {
+            "admob":  "./www/admob",
+            "cordova/exec": "./tests/js/stub/cordova-exec"
+          }
+        }]
+      ]
+    }
+  }
+}

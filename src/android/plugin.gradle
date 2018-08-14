@@ -1,0 +1,6 @@
+apply plugin: 'com.android.application'
+
+dependencies {
+    compile 'com.applovin:applovin-sdk:+'
+    compile 'com.google.android.gms:play-services-ads:15.0.1'
+}
